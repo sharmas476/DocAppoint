@@ -21,3 +21,11 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+appoint-server/target/**
+*.MF
+appoint-web/target/classes/META-INF/maven/com.appoint.app/appoint-web/pom.properties
+appoint-web/target/classes/META-INF/maven/com.appoint.app/appoint-web/pom.xml
+appoint-web/target/maven-archiver/pom.properties
+appoint-web/src/main/web/node
+appoint-web/src/main/web/node_modules
+appoint-web/src/main/web/node/dist

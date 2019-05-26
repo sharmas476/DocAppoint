@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -5,6 +6,7 @@ import { Observable } from 'rxjs';
 import { JwtResponse } from './jwt-response';
 import { AuthLoginInfo } from './login-info';
 import { SignUpInfo } from './signup-info';
+import { TokenStorageService } from './token-storage.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,11 +16,11 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class AuthService {
+  env = environment;
+  private loginUrl = this.env.url+this.env.port+'/api/auth/signin';
+  private signupUrl = this.env.url+this.env.port+'/api/auth/signup';
 
-  private loginUrl = 'http://localhost:8080/api/auth/signin';
-  private signupUrl = 'http://localhost:8080/api/auth/signup';
-
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private token: TokenStorageService) {
   }
 
   attemptAuth(credentials: AuthLoginInfo): Observable<JwtResponse> {
@@ -27,5 +29,13 @@ export class AuthService {
 
   signUp(info: SignUpInfo): Observable<string> {
     return this.http.post<string>(this.signupUrl, info, httpOptions);
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.token.getToken();
+    if (token != null) {
+        return true;
+    }
+    return false;
   }
 }
