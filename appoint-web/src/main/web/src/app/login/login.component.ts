@@ -5,11 +5,13 @@ import { AuthService } from '../auth/auth.service';
 import { TokenStorageService } from '../auth/token-storage.service';
 import { AuthLoginInfo } from '../auth/login-info';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/components/common/messageservice';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html', 
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
   form: any = {};
@@ -20,7 +22,7 @@ export class LoginComponent implements OnInit {
   private loginInfo: AuthLoginInfo;
   private authority: string;
 
-  constructor(private authService: AuthService, private tokenStorage: TokenStorageService, private route: Router, private app:AppComponent) { }
+  constructor(private messageService: MessageService, private authService: AuthService, private tokenStorage: TokenStorageService, private route: Router, private app:AppComponent) { }
 
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
@@ -30,10 +32,9 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.form);
 
     this.loginInfo = new AuthLoginInfo(
-      this.form.username,
+      this.form.phone,
       this.form.password);
 
     this.authService.attemptAuth(this.loginInfo).subscribe(
@@ -45,12 +46,11 @@ export class LoginComponent implements OnInit {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getAuthorities();
-        this.app.ngOnInit();
         this.navigate();
       },
       error => {
-        console.log(error);
         this.errorMessage = error.error.message;
+        this.showAlert(this.errorMessage);
         this.isLoginFailed = true;
       }
     );
@@ -67,13 +67,18 @@ export class LoginComponent implements OnInit {
           this.authority = 'admin';
           return false;
         } else if (role === 'ROLE_PM') {
-          this.authority = 'pm';
+          this.authority = 'profile';
           return false;
         }
         this.authority = 'user';
         return true;
       });
+      this.app.ngOnInit();
       this.route.navigate(['/'+this.authority]);
     }
+  }
+
+  showAlert(msg:string){
+    this.messageService.add({key: 'tc', severity:"error", summary:'Error', detail:msg});
   }
 }

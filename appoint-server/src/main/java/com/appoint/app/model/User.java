@@ -1,8 +1,11 @@
 package com.appoint.app.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,57 +14,59 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
 
 @Entity
-@Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-            "username"
-        }),
-        @UniqueConstraint(columnNames = {
-            "email"
-        })
-})
-public class User{
+@Table(name = "REGISTERED_USERS")
+public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6182929384515921144L;
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "USER_ID")
     private Long id;
 
-    @NotBlank
+    @NotNull
     @Size(min=3, max = 50)
     private String name;
 
-    @NotBlank
-    @Size(min=3, max = 50)
-    private String username;
+    @NotNull
+    @Size(min=10, max = 10)
+    private String phone;
 
     @NaturalId
-    @NotBlank
+    @NotNull
     @Size(max = 50)
     @Email
     private String email;
 
-    @NotBlank
+    @NotNull
     @Size(min=6, max = 100)
     private String password;
+    
+    @OneToMany(mappedBy = "user")
+    private Set<Patients> patient = new HashSet<Patients>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles", 
+    @JoinTable(name = "user_role", 
     	joinColumns = @JoinColumn(name = "user_id"), 
     	inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public User() {}
 
-    public User(String name, String username, String email, String password) {
+    public User(String name, String phone, String email, String password) {
         this.name = name;
-        this.username = username;
+        this.phone = phone;
         this.email = email;
         this.password = password;
     }
@@ -74,12 +79,12 @@ public class User{
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getName() {
@@ -113,4 +118,12 @@ public class User{
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+	public Set<Patients> getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Set<Patients> patient) {
+		this.patient = patient;
+	}
 }

@@ -1,3 +1,4 @@
+import { ProfileComponent } from './profile/profile.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -6,7 +7,6 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user/user.component';
-import { PmComponent } from './pm/pm.component';
 import { AdminComponent } from './admin/admin.component';
 
 const routes: Routes = [
@@ -20,8 +20,8 @@ const routes: Routes = [
         canActivate: [AuthGuardService]
     },
     {
-        path: 'pm',
-        component: PmComponent,
+        path: 'profile',
+        component: ProfileComponent,
         canActivate: [AuthGuardService]
     },
     {

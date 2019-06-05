@@ -4,12 +4,17 @@ import {InputTextModule} from 'primeng/inputtext';
 import {PasswordModule} from 'primeng/password';
 import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
+import {PanelModule} from 'primeng/panel';
+import {ToastModule} from 'primeng/toast';
+import {SplitButtonModule} from 'primeng/splitbutton';
+import {DialogModule} from 'primeng/dialog';
+import {RadioButtonModule} from 'primeng/radiobutton';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -21,6 +26,8 @@ import { AdminComponent } from './admin/admin.component';
 import { PmComponent } from './pm/pm.component';
 
 import { httpInterceptorProviders } from './auth/auth-interceptor';
+import { ProfileComponent } from './profile/profile.component';
+import { GenderPipe } from './pipes/gender.pipe';
 
 @NgModule({
   declarations: [
@@ -30,12 +37,15 @@ import { httpInterceptorProviders } from './auth/auth-interceptor';
     RegisterComponent,
     HomeComponent,
     AdminComponent,
-    PmComponent
+    PmComponent,
+    ProfileComponent,
+    GenderPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     CardModule,
@@ -43,7 +53,12 @@ import { httpInterceptorProviders } from './auth/auth-interceptor';
     ButtonModule,
     PasswordModule,
     MessageModule,
-    MessagesModule
+    MessagesModule,
+    PanelModule,
+    SplitButtonModule,
+    DialogModule,
+    RadioButtonModule,
+    ToastModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

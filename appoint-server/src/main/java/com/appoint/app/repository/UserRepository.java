@@ -9,7 +9,7 @@ import com.appoint.app.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUsername(String username);
-    Boolean existsByUsername(String username);
+    Optional<User> findByPhone(String phone);
+    Boolean existsByPhone(String phone);
     Boolean existsByEmail(String email);
 }

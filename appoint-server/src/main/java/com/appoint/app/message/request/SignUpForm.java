@@ -11,7 +11,7 @@ public class SignUpForm {
 
     @NotBlank
     @Size(min = 3, max = 50)
-    private String username;
+    private String phone;
 
     @NotBlank
     @Size(max = 60)
@@ -32,12 +32,12 @@ public class SignUpForm {
         this.name = name;
     }
 
-    public String getUsername() {
-        return username;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPhone(String username) {
+        this.phone = username;
     }
 
     public String getEmail() {

@@ -1,0 +1,113 @@
+<div class="p-grid">
+  <div class="p-col" *ngFor="let patient of patientList; let i = index;">
+    <p-card header="{{ patient.name }}" subheader="" [style]="{width: '360px'}" styleClass="ui-card-shadow">
+      <p-header>
+        <img src="Card" src="assets/Images/usercard.png">
+      </p-header>
+      <div>
+        <table class="p-grid">
+          <tr>
+            <td class="p-col-4">Gender:</td>
+            <td class="p-col-8">{{ patient.gender | gender }}</td>
+          </tr>
+          <tr>
+            <td class="p-col-4">Age:</td>
+            <td class="p-col-8">{{ patient.age }}</td>
+          </tr>
+          <tr>
+            <td class="p-col-4">Email:</td>
+            <td class="p-col-8">{{ patient.email }}</td>
+          </tr>
+          <tr>
+            <td class="p-col-4">Address:</td>
+            <td class="p-col-8">{{ patient.address }}</td>
+          </tr>
+        </table>
+      </div>
+      <p-footer>
+        <button pButton type="button" label="Edit" icon="pi pi-pencil" style="margin-right: .25em"></button>
+        <button pButton type="button" label="Delete" icon="pi pi-times" class="ui-button-danger" (click)="deleteUser(patient.patientId)"
+          style="margin-right: .25em"></button>
+        <button pButton type="button" label="Add New" icon="pi pi-plus" class="ui-button-success" *ngIf="i==0"
+          style="margin-right: .25em; float: right;" (click)="showDialog()"></button>
+      </p-footer>
+    </p-card>
+  </div>
+</div>
+
+<!---Add new Patient Form--->
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<p-dialog header="Add new patient" [(visible)]="display" [modal]="true" [responsive]="true"
+  [style]="{width: '550px', minWidth: '200px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+  <form [formGroup]="userform" (ngSubmit)="onSubmit(userform.value)">
+    <div class="p-grid">
+      <div class="p-col-3">
+        Name*:
+      </div>
+      <div class="p-col-6">
+        <input pInputText type="text" formControlName="name" placeholder="name" />
+      </div>
+      <div class="p-col-3">
+        <p-message severity="error" text="Name is required"
+          *ngIf="!userform.controls['name'].valid&&userform.controls['name'].dirty&&userform.controls['name'].errors?.required"></p-message>
+        <p-message severity="error" text="Name should be at least 3 characters"
+          *ngIf="!userform.controls['name'].valid&&userform.controls['name'].dirty&&userform.controls['name'].errors?.minlength"></p-message>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-3">
+        Age*:
+      </div>
+      <div class="p-col-6">
+        <input pInputText type="number" formControlName="age" placeholder="age" />
+      </div>
+      <div class="p-col-3">
+        <p-message severity="error" text="Invalid Age."
+          *ngIf="!userform.controls['age'].valid&&userform.controls['age'].dirty"></p-message>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-3">
+        Email:
+      </div>
+      <div class="p-col-6">
+        <input pInputText type="text" formControlName="email" placeholder="someone@example.com" />
+      </div>
+      <div class="p-col-3">
+        <p-message severity="error" text="Please enter vaid email Id."
+          *ngIf="!userform.controls['email'].valid&&userform.controls['email'].dirty"></p-message>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-3">
+        Address:
+      </div>
+      <div class="p-col-6">
+        <textarea pInputTextarea type="text" formControlName="address" placeholder="address"></textarea>
+      </div>
+      <div class="p-col-3"></div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-3">
+        Gender*:
+      </div>
+      <div class="p-col-6">
+        <p-radioButton name="group1" value="M" label="Male" formControlName="gender" inputId="preopt1"></p-radioButton>
+        &nbsp;
+        <p-radioButton name="group1" value="F" label="Female" formControlName="gender" inputId="preopt1">
+        </p-radioButton>
+      </div>
+      <div class="p-col-3">
+        <p-message severity="error" text="Gender is required"
+          *ngIf="!userform.controls['gender'].valid&&userform.controls['gender'].dirty"></p-message>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div class="p-col-3"></div>
+      <div class="p-col-6">
+        <button pButton type="submit" label="Submit" [disabled]="!userform.valid"></button>
+      </div>
+      <div class="p-col-3"></div>
+    </div>
+  </form>
+</p-dialog>
