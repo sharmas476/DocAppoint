@@ -29,4 +29,15 @@ export class AppComponent implements OnInit {
     }
   }
 
+  navbarOpen = false;
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
+  }
+
+  logout(){
+    this.tokenStorage.signOut();
+    location.reload(true);
+  }
+
 }

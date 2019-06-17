@@ -1,3 +1,4 @@
+import { AppComponent } from './../app.component';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -19,8 +20,8 @@ export class AuthService {
   env = environment;
   private loginUrl = this.env.url+this.env.port+'/api/auth/signin';
   private signupUrl = this.env.url+this.env.port+'/api/auth/signup';
-
-  constructor(private http: HttpClient, private token: TokenStorageService) {
+  private appComponent: AppComponent;
+  constructor(private http: HttpClient, private token: TokenStorageService ) {
   }
 
   attemptAuth(credentials: AuthLoginInfo): Observable<JwtResponse> {
@@ -38,4 +39,10 @@ export class AuthService {
     }
     return false;
   }
+
+  logout() {
+    this.token.signOut();
+    location.reload(true);
+  }
+
 }

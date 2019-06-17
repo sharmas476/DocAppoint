@@ -102,6 +102,9 @@ public class AuthRestAPIs {
 				Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
 						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
 				roles.add(userRole);
+				pmRole = roleRepository.findByName(RoleName.ROLE_PM)
+						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+				roles.add(pmRole);
 			}
 		});
 

@@ -22,4 +22,8 @@ export class ProfileService {
   deletePatient(patientId:string): Observable<boolean>{
     return this.http.delete<boolean>(environment.url+environment.port+"/api/test/deleteUser/"+patientId);
   }
+
+  editPatient(patient:Patient): Observable<boolean>{
+    return this.http.put<boolean>(environment.url+environment.port+"/api/test/updateUser/", patient);
+  }
 }

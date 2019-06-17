@@ -1,3 +1,5 @@
+import { TimeOffComponent } from './time-off/time-off.component';
+import { DoctorProfileComponent } from './doctor-profile/doctor-profile.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AuthGuardService } from './guards/auth-guard.service';
 import { NgModule } from '@angular/core';
@@ -23,6 +25,18 @@ const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
         canActivate: [AuthGuardService]
+    },
+    {
+        path: 'doctorProfile',
+        component: DoctorProfileComponent,
+        canActivate: [AuthGuardService]
+
+    },
+    {
+        path: 'timeOff',
+        component: TimeOffComponent,
+        canActivate: [AuthGuardService]
+
     },
     {
         path: 'admin',

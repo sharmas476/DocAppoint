@@ -9,6 +9,10 @@ import {ToastModule} from 'primeng/toast';
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {DialogModule} from 'primeng/dialog';
 import {RadioButtonModule} from 'primeng/radiobutton';
+import {CalendarModule} from 'primeng/calendar';
+import {TooltipModule} from 'primeng/tooltip';
+import {CheckboxModule} from 'primeng/checkbox';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -28,6 +32,8 @@ import { PmComponent } from './pm/pm.component';
 import { httpInterceptorProviders } from './auth/auth-interceptor';
 import { ProfileComponent } from './profile/profile.component';
 import { GenderPipe } from './pipes/gender.pipe';
+import { DoctorProfileComponent } from './doctor-profile/doctor-profile.component';
+import { TimeOffComponent } from './time-off/time-off.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +45,9 @@ import { GenderPipe } from './pipes/gender.pipe';
     AdminComponent,
     PmComponent,
     ProfileComponent,
-    GenderPipe
+    GenderPipe,
+    DoctorProfileComponent,
+    TimeOffComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +65,11 @@ import { GenderPipe } from './pipes/gender.pipe';
     PanelModule,
     SplitButtonModule,
     DialogModule,
+    CalendarModule,
     RadioButtonModule,
+    CheckboxModule,
+    TooltipModule,
+    InputTextareaModule,
     ToastModule
   ],
   providers: [httpInterceptorProviders],

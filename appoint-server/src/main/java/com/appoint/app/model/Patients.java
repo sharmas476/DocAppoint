@@ -4,15 +4,19 @@
 package com.appoint.app.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -54,9 +58,12 @@ public class Patients implements Serializable {
 	@Column(name="EMAIL")
 	private String email;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name="USER_ID")
 	private User user;
+	
+	@OneToMany(mappedBy = "patients")
+	private Set<Appointment> appointment = new HashSet<Appointment>();
 
 	public Long getPatientId() {
 		return patientId;
@@ -113,5 +120,15 @@ public class Patients implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public Set<Appointment> getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(Set<Appointment> appointment) {
+		this.appointment = appointment;
+	}
+
+	
 
 }

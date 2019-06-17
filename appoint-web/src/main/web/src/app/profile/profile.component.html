@@ -1,6 +1,7 @@
 <div class="p-grid">
   <div class="p-col" *ngFor="let patient of patientList; let i = index;">
-    <p-card header="{{ patient.name }}" subheader="" [style]="{width: '360px'}" styleClass="ui-card-shadow">
+    <p-card header="{{ patient.name }}" subheader="" [style]="{width: '360px'}" styleClass="ui-card-shadow"
+      *ngIf="patient">
       <p-header>
         <img src="Card" src="assets/Images/usercard.png">
       </p-header>
@@ -25,9 +26,10 @@
         </table>
       </div>
       <p-footer>
-        <button pButton type="button" label="Edit" icon="pi pi-pencil" style="margin-right: .25em"></button>
-        <button pButton type="button" label="Delete" icon="pi pi-times" class="ui-button-danger" (click)="deleteUser(patient.patientId)"
-          style="margin-right: .25em"></button>
+        <button pButton type="button" label="Edit" icon="pi pi-pencil" style="margin-right: .25em"
+          (click)="startEditing(patient.patientId)"></button>
+        <button pButton type="button" label="Delete" icon="pi pi-times" class="ui-button-danger" *ngIf="i!=0"
+          (click)="deleteUser(patient.patientId)" style="margin-right: .25em"></button>
         <button pButton type="button" label="Add New" icon="pi pi-plus" class="ui-button-success" *ngIf="i==0"
           style="margin-right: .25em; float: right;" (click)="showDialog()"></button>
       </p-footer>
@@ -49,9 +51,11 @@
       </div>
       <div class="p-col-3">
         <p-message severity="error" text="Name is required"
-          *ngIf="!userform.controls['name'].valid&&userform.controls['name'].dirty&&userform.controls['name'].errors?.required"></p-message>
+          *ngIf="!userform.controls['name'].valid&&userform.controls['name'].dirty&&userform.controls['name'].errors?.required">
+        </p-message>
         <p-message severity="error" text="Name should be at least 3 characters"
-          *ngIf="!userform.controls['name'].valid&&userform.controls['name'].dirty&&userform.controls['name'].errors?.minlength"></p-message>
+          *ngIf="!userform.controls['name'].valid&&userform.controls['name'].dirty&&userform.controls['name'].errors?.minlength">
+        </p-message>
       </div>
     </div>
     <div class="p-grid">
