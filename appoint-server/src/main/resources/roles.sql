@@ -41,6 +41,17 @@ DESCRIPTION VARCHAR(200),
 FOREIGN KEY FK_PATIENT_APPOINTMENT(PATIENT_ID)
 REFERENCES PATIENTS(PATIENT_ID)
 );
+
+CREATE TABLE `time_off` (
+  `time_off_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `start_date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_date` date NOT NULL,
+  `end_time` time NOT NULL,
+  `full_day` tinyint(4) DEFAULT '0',
+  `description` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`time_off_id`)
+);
 ----------------------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO roles(role_name) VALUES('ROLE_USER');
 INSERT INTO roles(role_name) VALUES('ROLE_PM');
