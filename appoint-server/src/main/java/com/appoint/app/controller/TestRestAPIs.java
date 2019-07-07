@@ -2,8 +2,10 @@ package com.appoint.app.controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.appoint.app.bean.AppointmentBean;
@@ -88,6 +89,24 @@ public class TestRestAPIs {
 		return patientService.deletePatient(patientId);
 	}
 	
+	@DeleteMapping("/api/test/deletePatientAppointment/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public boolean deletePatientAppointment(@PathVariable("id") Long appointmentId){
+		return appointmentService.deletePatientAppointment(appointmentId);
+	}
+	
+	@GetMapping("/api/test/getAllAppointments")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public List<AppointmentBean> getAllAppointments(){
+		return appointmentService.getAppointmentByPhone();
+	}
+	
+	@PostMapping("/api/test/createNewAppointment")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<?> createNewAppointments(@RequestBody AppointmentBean appointmentBean){
+		return appointmentService.createAppointment(appointmentBean);
+	}
+	
 	@PostMapping("/api/test/appointmentSchedule")
 	@PreAuthorize("hasRole('ADMIN')")
 	public List<AppointmentBean> showDoctorAppointment(@RequestBody Date date){
@@ -136,4 +155,16 @@ public class TestRestAPIs {
 		return timeOffService.deleteTimeOff(timeOffId);
 	}
  	
+	@GetMapping("/api/test/getTimeIntervals/{date}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public List<String> getTimeIntervals(@PathVariable("date") String date){
+		return appointmentService.getTimeIntervals(date);
+	}
+
+	@GetMapping("/api/test/getFullDayTimeoff")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public List<String> getFullDayTimeOffs(){
+		return timeOffService.getFullDayTimeoff();
+	}
+	
 }

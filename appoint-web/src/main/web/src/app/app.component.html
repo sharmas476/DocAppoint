@@ -22,10 +22,10 @@
         <a class="nav-link" routerLink="timeOff">Time Off</a>
       </li>
       <li *ngIf="authority === 'pm'" class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="pm">PM Board</a>
-      </li>
-      <li *ngIf="authority === 'profile'" class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" routerLink="profile">Profile</a>
+      </li>
+      <li *ngIf="authority === 'pm'" class="nav-item" [routerLinkActive]="['active']">
+        <a class="nav-link" routerLink="appointment">My Appointment</a>
       </li>
       <li *ngIf="!authority" class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" routerLink="login">Login</a>

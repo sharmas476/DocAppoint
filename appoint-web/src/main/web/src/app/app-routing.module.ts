@@ -1,3 +1,4 @@
+import { PatientAppointmentComponent } from './patient-appointment/patient-appointment.component';
 import { TimeOffComponent } from './time-off/time-off.component';
 import { DoctorProfileComponent } from './doctor-profile/doctor-profile.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -24,6 +25,11 @@ const routes: Routes = [
     {
         path: 'profile',
         component: ProfileComponent,
+        canActivate: [AuthGuardService]
+    },
+    {
+        path: 'appointment',
+        component: PatientAppointmentComponent,
         canActivate: [AuthGuardService]
     },
     {

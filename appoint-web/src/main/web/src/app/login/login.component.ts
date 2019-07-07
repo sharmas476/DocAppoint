@@ -6,6 +6,7 @@ import { TokenStorageService } from '../auth/token-storage.service';
 import { AuthLoginInfo } from '../auth/login-info';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { stringify } from '@angular/core/src/render3/util';
 
 @Component({
   selector: 'app-login',
@@ -61,20 +62,23 @@ export class LoginComponent implements OnInit {
   }
   navigate(){
     if (this.tokenStorage.getToken()) {
+      let reroute:string;
       this.roles = this.tokenStorage.getAuthorities();
       this.roles.every(role => {
         if (role === 'ROLE_ADMIN') {
-          this.authority = 'doctorProfile';
+          this.authority = 'admin';
+          reroute="doctorProfile";
           return false;
         } else if (role === 'ROLE_PM') {
-          this.authority = 'profile';
+          this.authority = 'pm';
+          reroute = "profile";
           return false;
         }
         this.authority = 'user';
         return true;
       });
       this.app.ngOnInit();
-      this.route.navigate(['/'+this.authority]);
+      this.route.navigate(['/'+reroute]);
     }
   }
 

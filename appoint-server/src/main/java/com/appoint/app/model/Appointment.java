@@ -48,6 +48,9 @@ public class Appointment implements Serializable{
 	@Column(name="DESCRIPTION")
 	private String description;
 	
+	@Column(name="STATUS")
+	private String status;
+	
 	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinColumn(name="PATIENT_ID")
 	private Patients patients;
@@ -90,6 +93,14 @@ public class Appointment implements Serializable{
 
 	public void setPatients(Patients patients) {
 		this.patients = patients;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 	

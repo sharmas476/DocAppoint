@@ -1,3 +1,4 @@
+<p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
 <div class="flex-container">
   <div><button pButton type="button" label="Show History" icon="pi pi-calendar" (click)="getAllTimeOffs()" class="ui-button-success"></button></div>
   <div>
@@ -16,7 +17,6 @@
         <th>Start Time</th>
         <th>End Date</th>
         <th>End Time</th>
-        <th>Full Day</th>
         <th>Description</th>
         <th>Action</th>
       </tr>
@@ -28,7 +28,6 @@
         <td>{{ timeOff.startTime }}</td>
         <td>{{ timeOff.endDate }}</td>
         <td>{{ timeOff.endTime }}</td>
-        <td>{{ timeOff.fullDay }}</td>
         <td>{{ timeOff.description }}</td>
         <td *ngIf="isTimeOffGreaterThanToday(timeOff.startDate)">
           <button pButton type="button" icon="pi pi-pencil" (click)="modifyTimeOff(timeOff.timeOffId)" class="ui-button-success" pTooltip="Modify this Time Off"></button>
@@ -87,14 +86,6 @@
             <p-calendar [timeOnly]="true" [touchUI]="true" [(ngModel)]="editableEndTime" [readonlyInput]="true"></p-calendar>
         </div>
     </div>
-    <div class="p-grid">
-      <div class="p-col-3">
-        Full Day:
-      </div>
-      <div class="p-col-6">
-        <p-checkbox [(ngModel)]="editableFullDay" binary="true"></p-checkbox>
-      </div>
-  </div>
   <div class="p-grid">
     <div class="p-col-3">
       Description:

@@ -1,7 +1,7 @@
 <div class="flex-container">
   <div><button pButton type="button" label="Previous" (click)="getPreviousDaysAppointment()" class="ui-button-success"></button></div>
   <div>
-    <p-calendar [disabledDates]="invalidDates" [(ngModel)]="today" [disabledDays]="[0,6]" [readonlyInput]="true" showButtonBar="true"></p-calendar>
+    <p-calendar [(ngModel)]="today" [disabledDays]="[0,6]" [readonlyInput]="true" showButtonBar="true"></p-calendar>
     <button pButton type="button" label="Find" (click)="getAppointmentForTheDay()" class="ui-button-success"></button>
     
   </div>

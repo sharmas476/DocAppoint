@@ -11,8 +11,8 @@ export class ProfileService {
 
   constructor(private http: HttpClient) { }
 
-  fetchAllPatients(phone:string): Observable<Patient>{
-    return this.http.post<Patient>(environment.url+environment.port+"/api/test/fetchUser", phone);
+  fetchAllPatients(phone:string): Observable<Patient[]>{
+    return this.http.post<Patient[]>(environment.url+environment.port+"/api/test/fetchUser", phone);
   }
 
   saveNewPatient(patient:Patient): Observable<boolean>{

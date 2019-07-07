@@ -13,7 +13,11 @@ public class AppointmentBean {
 	private String description;
 	
 	private String name;
+	
+	private String status;
 
+	private Long patientId;
+	
 	public Long getAppointmentId() {
 		return appointmentId;
 	}
@@ -52,6 +56,22 @@ public class AppointmentBean {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(Long patientId) {
+		this.patientId = patientId;
 	}
 
 }

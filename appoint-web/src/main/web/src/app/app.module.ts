@@ -13,6 +13,8 @@ import {CalendarModule} from 'primeng/calendar';
 import {TooltipModule} from 'primeng/tooltip';
 import {CheckboxModule} from 'primeng/checkbox';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {DropdownModule} from 'primeng/dropdown';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -34,6 +36,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { GenderPipe } from './pipes/gender.pipe';
 import { DoctorProfileComponent } from './doctor-profile/doctor-profile.component';
 import { TimeOffComponent } from './time-off/time-off.component';
+import { PatientAppointmentComponent } from './patient-appointment/patient-appointment.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +50,8 @@ import { TimeOffComponent } from './time-off/time-off.component';
     ProfileComponent,
     GenderPipe,
     DoctorProfileComponent,
-    TimeOffComponent
+    TimeOffComponent,
+    PatientAppointmentComponent
   ],
   imports: [
     BrowserModule,
@@ -69,8 +73,10 @@ import { TimeOffComponent } from './time-off/time-off.component';
     RadioButtonModule,
     CheckboxModule,
     TooltipModule,
+    DropdownModule,
     InputTextareaModule,
-    ToastModule
+    ToastModule,
+    ConfirmDialogModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

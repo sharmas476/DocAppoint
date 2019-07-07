@@ -5,21 +5,26 @@ import { TokenStorageService } from '../auth/token-storage.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { SelectItem } from '../common/select-item';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(private profileService: ProfileService, private tokenStorage: TokenStorageService, private fb: FormBuilder, private messageService: MessageService) { }
+  constructor(private profileService: ProfileService, 
+    private tokenStorage: TokenStorageService, 
+    private fb: FormBuilder, 
+    private messageService: MessageService,
+    private confirmationService:ConfirmationService) { }
 
   display = false;
   errorMessage;
   index = 0;
-  patientList: Patient;
+  patientList: Patient[];
   genders: SelectItem[];
   userform: FormGroup;
   submitted: boolean;
@@ -30,7 +35,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.profileService.fetchAllPatients(this.tokenStorage.getUsername()).subscribe(response => {
       this.patientList = response;
-      console.log(response);
     },
       error => {
         this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
@@ -58,7 +62,8 @@ export class ProfileComponent implements OnInit {
       this.profileService.saveNewPatient(patient).subscribe(response => {
         if (response == true)
           this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Patient Updated Successfully.' });
-      },
+        this.ngOnInit();
+        },
         error => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
         });
@@ -68,7 +73,8 @@ export class ProfileComponent implements OnInit {
       this.profileService.saveNewPatient(patient).subscribe(response => {
         if (response == true)
           this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Patient Added Successfully.' });
-      },
+        this.ngOnInit();
+        },
         error => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
         })
@@ -77,18 +83,28 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteUser(patientId: string) {
-    this.profileService.deletePatient(patientId).subscribe(response => {
-      if (response == true)
-        this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Patient Deleted Successfully.' });
-      for (let i in this.patientList) {
-        if (patientId == this.patientList[i].patientId) {
-          delete this.patientList[i];
-        }
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete this patient?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.profileService.deletePatient(patientId).subscribe(response => {
+          if (response == true)
+            this.messageService.add({ severity: 'info', summary: 'Success', detail: 'Patient Deleted Successfully.' });
+          for (let i in this.patientList) {
+            if (patientId == this.patientList[i].patientId) {
+              delete this.patientList[i];
+            }
+          }
+        },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
+          })
+      },
+      reject: () => {
+          
       }
-    },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
-      })
+  });
   }
 
   startEditing(patientId: string) {

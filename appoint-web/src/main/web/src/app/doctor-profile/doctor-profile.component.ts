@@ -14,7 +14,6 @@ export class DoctorProfileComponent implements OnInit {
 
   constructor(private appointmentService:AppointmentService, private fb: FormBuilder, private messageService: MessageService) { }
 
-  invalidDates: Array<Date>
   today:Date;
   appointments:Appointment[];
   minDate:Date;
@@ -23,12 +22,10 @@ export class DoctorProfileComponent implements OnInit {
   editingAppointmentId:string;
   editableTime:string;
   editableDate:Date;
+  description:string;
+
   ngOnInit() {
     this.today=new Date();
-    let invalidDate = new Date();
-    invalidDate.setDate(this.today.getDate() - 1);
-    let date: Date = new Date("2019-06-17"); 
-    this.invalidDates = [invalidDate,date];
     this.fetchAppointmentByDate(this.today);
     this.minDate = new Date();
   }

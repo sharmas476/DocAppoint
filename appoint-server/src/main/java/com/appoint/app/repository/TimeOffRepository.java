@@ -26,34 +26,44 @@ import com.appoint.app.model.TimeOff;
 public class TimeOffRepository extends AbstractRepository{
 
 	@Autowired
-	EntityManager entityManager;
+	EntityManager em;
 	
 	public List<TimeOff> getCurrentTimeOffs() {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<TimeOff> criteria = cb.createQuery(TimeOff.class);
 		Root<TimeOff> from = criteria.from(TimeOff.class);
 		criteria.select(from);
 		criteria.where(cb.greaterThanOrEqualTo(from.<Date>get("startDate"), new Date()));
-		TypedQuery<TimeOff> query = entityManager.createQuery(criteria);
+		TypedQuery<TimeOff> query = em.createQuery(criteria);
 		return query.getResultList();
 	}
 	
 	public List<TimeOff> getAllTimeOffs() {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<TimeOff> criteria = cb.createQuery(TimeOff.class);
 		Root<TimeOff> from = criteria.from(TimeOff.class);
 		criteria.select(from);
-		TypedQuery<TimeOff> query = entityManager.createQuery(criteria);
+		TypedQuery<TimeOff> query = em.createQuery(criteria);
 		return query.getResultList();
 	}
 	
 	public List<TimeOff> getTimeOffsFromDate(Date date) {
-		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<TimeOff> criteria = cb.createQuery(TimeOff.class);
 		Root<TimeOff> from = criteria.from(TimeOff.class);
 		criteria.select(from);
 		criteria.where(cb.greaterThanOrEqualTo(from.<Date>get("startDate"), date));
-		TypedQuery<TimeOff> query = entityManager.createQuery(criteria);
+		TypedQuery<TimeOff> query = em.createQuery(criteria);
+		return query.getResultList();
+	}
+	
+	public List<TimeOff> getTimeOffsForDate(Date date) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<TimeOff> criteria = cb.createQuery(TimeOff.class);
+		Root<TimeOff> from = criteria.from(TimeOff.class);
+		criteria.select(from);
+		criteria.where(cb.or(cb.equal(from.<Date>get("startDate"), date),cb.equal(from.<Date>get("endDate"), date)));
+		TypedQuery<TimeOff> query = em.createQuery(criteria);
 		return query.getResultList();
 	}
 	
@@ -66,11 +76,11 @@ public class TimeOffRepository extends AbstractRepository{
 	}
 	
 	public void deleteTimeOff(Long timeOffId) {
-		getSession().delete(entityManager.find(TimeOff.class,timeOffId));
+		getSession().delete(em.find(TimeOff.class,timeOffId));
 	}
 	
 	public List<TimeOff> getTimeOffByMonth(String month, String year){
-		Query query = entityManager.createNativeQuery("SELECT * FROM testdb.time_off where MONTH(start_date)= :month AND YEAR(start_date)= :year", TimeOff.class);
+		Query query = em.createNativeQuery("SELECT * FROM testdb.time_off where MONTH(start_date)= :month AND YEAR(start_date)= :year", TimeOff.class);
 		query.setParameter("month", month);
 		query.setParameter("year", year);
 		List<TimeOff> obj = query.getResultList();
@@ -78,6 +88,6 @@ public class TimeOffRepository extends AbstractRepository{
 	}
 	
 	public TimeOff loadTimeOff(Long timeOffId) {
-		return entityManager.find(TimeOff.class, timeOffId);
+		return em.find(TimeOff.class, timeOffId);
 	}
 }

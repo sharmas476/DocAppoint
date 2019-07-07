@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
           this.authority = 'admin';
           return false;
         } else if (role === 'ROLE_PM') {
-          this.authority = 'profile';
+          this.authority = 'pm';
           return false;
         }
         this.authority = 'user';

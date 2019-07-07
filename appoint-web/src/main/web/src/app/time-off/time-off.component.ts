@@ -1,15 +1,15 @@
+import { ConfirmationService } from 'primeng/api';
 import { TimeOff } from './../model/TimeOff';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { TimeoffService } from '../services/timeoff.service';
-import { validateConfig } from '@angular/router/src/config';
 
 @Component({
   selector: 'app-time-off',
   templateUrl: './time-off.component.html',
   styleUrls: ['./time-off.component.css'],
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class TimeOffComponent implements OnInit {
 
@@ -21,11 +21,13 @@ export class TimeOffComponent implements OnInit {
   editableStartDate: Date;
   minDate = new Date();
   editingTimeOffId: string;
-  editableFullDay: boolean;
   editableDescription: string;
   modifying: boolean = false;
   historyDate:Date;
-  constructor(private timeOffService: TimeoffService, private fb: FormBuilder, private messageService: MessageService) { }
+  constructor(private timeOffService: TimeoffService, 
+    private fb: FormBuilder, 
+    private messageService: MessageService,
+    private confirmationService:ConfirmationService) { }
 
   ngOnInit() {
     this.timeOffService.fetchCurrentTimeOff().subscribe(response => {
@@ -56,7 +58,6 @@ export class TimeOffComponent implements OnInit {
     this.editableEndDate = new Date(timeOff.endDate);
     this.editableStartTime = timeOff.startTime;
     this.editableEndTime = timeOff.endTime;
-    this.editableFullDay = timeOff.fullDay;
     this.editableDescription = timeOff.description;
     this.startModifying();
     this.showDialog();
@@ -120,7 +121,6 @@ export class TimeOffComponent implements OnInit {
     timeOff.endDate = this.editableEndDate;
     timeOff.startTime = this.convertTimeToString(this.editableStartTime);
     timeOff.endTime = this.convertTimeToString(this.editableEndTime);
-    timeOff.fullDay = this.editableFullDay;
     timeOff.description = this.editableDescription;
     return timeOff;
   }
@@ -141,15 +141,25 @@ export class TimeOffComponent implements OnInit {
   }
 
   deleteTimeOff(timeOffId:string){
-    this.timeOffService.deleteTimeOff(timeOffId).subscribe(response => {
-      if (response == true) {
-        this.ngOnInit();
-        this.messageService.add({ severity: 'info', summary: 'Success', detail: "Time off deleted successfully" });
+    this.confirmationService.confirm({
+      message: 'Are you sure that you want to delete this timeoff?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.timeOffService.deleteTimeOff(timeOffId).subscribe(response => {
+          if (response == true) {
+            this.ngOnInit();
+            this.messageService.add({ severity: 'info', summary: 'Success', detail: "Time off deleted successfully" });
+          }
+        },
+          error => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
+          });
+      },
+      reject: () => {
+          
       }
-    },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
-      });
+  });
   }
 
   createTimeOff() {
@@ -157,7 +167,6 @@ export class TimeOffComponent implements OnInit {
     this.editableEndDate = null;
     this.editableStartTime = "";
     this.editableEndTime = "";
-    this.editableFullDay = false;
     this.editableDescription = "";
     this.editingTimeOffId = '0';
     this.stopModifying();

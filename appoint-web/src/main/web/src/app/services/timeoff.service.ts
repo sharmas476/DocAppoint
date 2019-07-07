@@ -34,4 +34,8 @@ export class TimeoffService {
   getTimeOffByMonth(month:string, year:string): Observable<TimeOff[]> {
     return this.http.get<TimeOff[]>(environment.url+environment.port+"/api/test/getTimeoffByMonth/"+month+"/"+year);
   }
+
+  getFullDayTimeoff():Observable<string[]> {
+    return this.http.get<string[]>(environment.url+environment.port+"/api/test/getFullDayTimeoff");
+  }
 }

@@ -45,6 +45,10 @@ public class PatientRepository extends AbstractRepository{
 		return true;
 	}
 	
+	public Patients loadPatient(Long patientId) {
+		return entityManager.find(Patients.class, patientId);
+	}
+	
 	public boolean deletePatient(String patientId){
 		Patients patient = getSession().load(Patients.class, Long.parseLong(patientId));
 		getSession().delete(patient);
