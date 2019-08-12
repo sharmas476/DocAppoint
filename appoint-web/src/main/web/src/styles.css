@@ -34,3 +34,9 @@ body {
     justify-content: space-between;
     /* background-color: DodgerBlue;*/
   }
+
+  @media print {
+    body {
+      display: none;
+    }
+  }

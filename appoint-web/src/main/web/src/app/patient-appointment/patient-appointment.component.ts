@@ -51,7 +51,8 @@ export class PatientAppointmentComponent implements OnInit {
        response.forEach(element => {
          this.invalidDates.push(new Date(element))
        });
-       this.messageService.add({ severity: 'info', summary: 'Info', detail: "Doctor is on time-off on "+response });
+       if(response != undefined && response.length > 0)
+          this.messageService.add({ severity: 'info', summary: 'Info', detail: "Doctor is on time-off on "+response });
     },
     error => {
       alert(error);

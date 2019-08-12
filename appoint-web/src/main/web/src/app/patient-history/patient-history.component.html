@@ -1,0 +1,47 @@
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+<div class="container" style="overflow-y: auto; height: 100vh;">
+  <div class="flex-container">
+    <div>Patient Record</div>
+    <div>
+        <button pButton type="button" *ngIf="mode == 'description'" label="Show Prescription Details" (click)="showHidePresciption()" class="ui-button-success"></button>
+        <button pButton type="button" *ngIf="mode == 'prescription'" label="Hide Prescription Details" (click)="showHidePresciption()" class="ui-button-success"></button>
+    </div>
+    <div><button pButton type="button" label="Save Details" (click)="savePatientRecord()" class="ui-button-success"></button></div>  
+  </div>
+<div class="row" *ngIf="patient && mode == 'description'">
+  <table class="table table-bordered table-dark">
+    <tr>
+      <td style="width: 50%" colspan="2">Name: {{ patient.name }}</td>
+      <td style="width: 20%">Age/Gender: {{ patient.age }}/{{ patient.gender }}</td>
+      <td style="width: 30%">Married Since: <input pInputText type="text" [(ngModel)]="patient.marriedSince"/></td>
+    </tr>
+    <tr>
+      <td colspan="3">Contact Details: {{ patient.contactDetails }}</td>
+      <td>Occupation: <input pInputText [(ngModel)]="patient.occupation"/></td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <angular-editor [(ngModel)]="patient.pC" id="myEditor" [config]="config"></angular-editor>
+      </td> 
+    </tr>
+  </table>
+</div>
+<div class="row" *ngIf="patient && mode == 'prescription'">
+  <table class="table table-bordered table-dark">
+    <tr>
+      <td style="width: 50%">Name: {{ patient.name }}</td>
+      <td style="width: 20%">Age/Gender: {{ patient.age }}/{{ patient.gender }}</td>
+    </tr>
+    <tr *ngFor="let pres of patient.prescriptionList">
+      <td><textarea rows="5" cols="30" pInputTextarea disabled [(ngModel)]="pres.prescriptionDetails" style="width: 100%" autoResize="autoResize"></textarea></td>
+      <td>{{pres.date | date: 'MMMM d, y'}}</td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="newPrescription" style="width: 100%"></textarea>
+        <button pButton type="button" label="Save Details" (click)="savePatientRecord()" class="ui-button-success"></button>
+      </td>
+    </tr>
+  </table>
+</div>
+</div> 

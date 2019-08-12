@@ -1,55 +1,75 @@
 <div style="float: right;">
-<div *ngIf="isSignedUp; else signupForm">
-  Your registration is successful. Please login!
-</div>
-<ng-template #signupForm>
+  <div *ngIf="isSignedUp; else signupForm">
+    Your registration is successful. Please login!
+  </div>
+  <ng-template #signupForm>
     <p-messages [(value)]="msgs"></p-messages>
-  <p-card header="Login" [style]="{width: '360px'}" styleClass="ui-card-shadow login-form" class="login-form">
+    <p-card header="Login" [style]="{width: '360px'}" styleClass="ui-card-shadow login-form" class="login-form">
       <p-header>
-          <img src="assets/Images/login.png" height="220px" width="100px">
+        <img src="assets/Images/login.png" height="220px" width="100px">
       </p-header>
       <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-          <div class="form-group">
-              <label for="name">Name</label>
-              <input pInputText type="text" class="form-control" name="name" [(ngModel)]="form.name" #name="ngModel" placeholder="Name" required />
-              <div *ngIf="f.submitted && name.invalid" class="error">
-                <div *ngIf="name.errors.required">Name is required</div>
-              </div>
-            </div>
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input pInputText class="form-control" name="phone" [(ngModel)]="form.phone" #phone="ngModel" placeholder="Phone"
-              required />
-            <div *ngIf="f.submitted && phone.invalid" class="error">
-              <div *ngIf="phone.errors.required" >Phone is required</div>
-            </div>
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input pInputText type="text" class="form-control" name="name" [(ngModel)]="form.name" #name="ngModel"
+            placeholder="Name" required />
+          <div *ngIf="f.submitted && name.invalid" class="error">
+            <div *ngIf="name.errors.required">Name is required</div>
           </div>
-          <div class="form-group">
-              <label for="email">Email</label>
-              <input pInputText type="text" class="form-control" name="email" [(ngModel)]="form.email" #email="ngModel" placeholder="someone@example.com" required email />
-              <div *ngIf="f.submitted && email.invalid">
-                <div *ngIf="email.errors.required">Email is required</div>
-                <div *ngIf="email.errors.email">Email must be a valid email address</div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input pPassword type="password" class="form-control" name="password" [(ngModel)]="form.password" #password="ngModel"
-                placeholder="Password" required minlength="6" />
-              <div *ngIf="f.submitted && password.invalid">
-                <div *ngIf="password.errors.required">Password is required</div>
-                <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
-              </div>
-            </div>
-          <div class="form-group">
-              <button pButton type="submit" class="ui-button-primary" icon="pi pi-user-plus" label="Register"></button>
-            </div>
-        </form>
-        <hr>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input pInputText class="form-control" name="phone" [(ngModel)]="form.phone" #phone="ngModel"
+            placeholder="Phone" required />
+          <div *ngIf="f.submitted && phone.invalid" class="error">
+            <div *ngIf="phone.errors.required">Phone is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input pInputText type="text" class="form-control" name="email" [(ngModel)]="form.email" #email="ngModel"
+            placeholder="someone@example.com" required email />
+          <div *ngIf="f.submitted && email.invalid" class="error">
+            <div *ngIf="email.errors.required">Email is required</div>
+            <div *ngIf="email.errors.email">Email must be a valid email address</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="age">Age</label>
+          <input pInputText type="number" maxlength="3" class="form-control" name="age" [(ngModel)]="form.age" #age="ngModel"
+            placeholder="Age" required />
+          <div *ngIf="f.submitted && age.invalid" class="error">
+            <div *ngIf="age.errors.required">Age is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="gender">Gender &nbsp;</label>
+          <p-radioButton name="gender" [(ngModel)]="form.gender" value="M" label="Male" required #gender="ngModel"></p-radioButton>
+          &nbsp;
+          <p-radioButton name="gender" [(ngModel)]="form.gender" value="F" label="Female" required>
+          </p-radioButton>
+          <div *ngIf="f.submitted && gender.invalid" class="error">
+            <div *ngIf="gender.errors.required">Gender is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input pPassword type="password" class="form-control" name="password" [(ngModel)]="form.password"
+            #password="ngModel" placeholder="Password" required minlength="6" />
+          <div *ngIf="f.submitted && password.invalid" class="error">
+            <div *ngIf="password.errors.required">Password is required</div>
+            <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button pButton type="submit" class="ui-button-primary" icon="pi pi-user-plus" label="Register"></button>
+        </div>
+      </form>
+      <hr>
       <p-footer>
         <p>Already have an account?</p>
         <a pButton type="button" routerLink="/login" label="Login" icon="pi pi-sign-in" class="ui-button-secondary"></a>
       </p-footer>
-  </p-card>
-</ng-template>
+    </p-card>
+  </ng-template>
 </div>

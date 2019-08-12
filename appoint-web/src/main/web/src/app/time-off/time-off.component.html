@@ -56,15 +56,15 @@
   [style]="{width: '550px', minWidth: '200px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">    
     <div class="p-grid">
       <div class="p-col-3">
-        Start Date:
+        Start Date*:
       </div>
       <div class="p-col-6">
-          <p-calendar [(ngModel)]="editableStartDate" [touchUI]="true" [minDate]="minDate" [disabledDays]="[0,6]" [readonlyInput]="true"></p-calendar>
+          <p-calendar [(ngModel)]="editableStartDate" [touchUI]="true" [minDate]="minDate" [disabledDays]="[0,7]" [readonlyInput]="true"></p-calendar>
       </div>
     </div>
     <div class="p-grid">
         <div class="p-col-3">
-          Start Time:
+          Start Time*:
         </div>
         <div class="p-col-6">
             <p-calendar [timeOnly]="true" [touchUI]="true" [(ngModel)]="editableStartTime" [readonlyInput]="true"></p-calendar>
@@ -72,15 +72,15 @@
     </div>
     <div class="p-grid">
       <div class="p-col-3">
-        End Date:
+        End Date*:
       </div>
       <div class="p-col-6">
-          <p-calendar [(ngModel)]="editableEndDate" [touchUI]="true" [minDate]="minDate" [disabledDays]="[0,6]" [readonlyInput]="true"></p-calendar>
+          <p-calendar [(ngModel)]="editableEndDate" [touchUI]="true" [minDate]="minDate" [disabledDays]="[0,7]" [readonlyInput]="true"></p-calendar>
       </div>
     </div>
     <div class="p-grid">
         <div class="p-col-3">
-          End Time:
+          End Time*:
         </div>
         <div class="p-col-6">
             <p-calendar [timeOnly]="true" [touchUI]="true" [(ngModel)]="editableEndTime" [readonlyInput]="true"></p-calendar>

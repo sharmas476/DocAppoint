@@ -18,8 +18,8 @@ const httpOptions = {
 })
 export class AuthService {
   env = environment;
-  private loginUrl = this.env.url+this.env.port+'/api/auth/signin';
-  private signupUrl = this.env.url+this.env.port+'/api/auth/signup';
+  private loginUrl = this.env.url+'/api/auth/signin';
+  private signupUrl = this.env.url+'/api/auth/signup';
   constructor(private http: HttpClient, private token: TokenStorageService ) {
   }
 

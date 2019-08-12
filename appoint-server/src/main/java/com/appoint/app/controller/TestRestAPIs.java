@@ -2,8 +2,6 @@ package com.appoint.app.controller;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.appoint.app.bean.AppointmentBean;
+import com.appoint.app.bean.PatientFileBean;
 import com.appoint.app.bean.PatientsBean;
 import com.appoint.app.bean.TimeOffBean;
 import com.appoint.app.model.Patients;
@@ -111,6 +110,25 @@ public class TestRestAPIs {
 	@PreAuthorize("hasRole('ADMIN')")
 	public List<AppointmentBean> showDoctorAppointment(@RequestBody Date date){
 		return appointmentService.getAppointmentByDate(date);
+	}
+	
+	@GetMapping("/api/test/startTreatment/{appointmentId}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public boolean startTreatment(@PathVariable("appointmentId")Long appointmentId){
+		appointmentService.startTreatment(appointmentId);
+		return true;
+	}
+	
+	@GetMapping("/api/test/getPatientDescription/{appointmentId}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public PatientFileBean getPatientDescription(@PathVariable("appointmentId")Long appointmentId){
+		return appointmentService.getPatientDescriptionByAppointmentId(appointmentId);
+	}
+	
+	@PostMapping("/api/test/savePatientRecord")
+	@PreAuthorize("hasRole('ADMIN')")
+	public PatientFileBean savePatientRecord(@RequestBody PatientFileBean patientBean){
+		return appointmentService.savePatientRecord(patientBean);
 	}
 	
 	@PutMapping("/api/test/modifyAppointment")

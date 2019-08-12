@@ -7,7 +7,7 @@
 		<artifactId>appoint-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>appoint-server</artifactId>
+	<artifactId>appoint-app</artifactId>
 	<packaging>war</packaging>
 
 	<dependencies>

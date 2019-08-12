@@ -189,6 +189,8 @@ export class TimeOffComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: "Start date cannot be greater than end date." });
     else if(this.editableStartDate.getTime() == this.editableEndDate.getTime() && new Date(this.editableStartTime) > new Date(this.editableEndTime))
       this.messageService.add({ severity: 'error', summary: 'Error', detail: "Start time cannot be greater than end time." });
+    else if(!this.editableStartDate || this.editableStartTime =='' || !this.editableEndDate || this.editableEndTime == '')
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: "Please fill all the required fields" });
     else
       return true;
     return false;

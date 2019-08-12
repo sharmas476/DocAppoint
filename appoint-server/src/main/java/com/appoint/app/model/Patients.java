@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,6 +34,20 @@ public class Patients implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2026327818025902840L;
+	
+	public Patients( String name, int age,
+			String gender, String email, User user	) {
+		super();
+		this.name = name;
+		this.age = age;
+		this.gender = gender;
+		this.email = email;
+		this.user = user;
+	}
+	
+	public Patients() {
+		
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +66,7 @@ public class Patients implements Serializable {
 	@NotNull
 	@Column(name="GENDER")
 	private String gender;
-	
+
 	@Column(name="ADDRESS")
 	private String address;
 	
@@ -63,7 +78,13 @@ public class Patients implements Serializable {
 	private User user;
 	
 	@OneToMany(mappedBy = "patients")
-	private Set<Appointment> appointment = new HashSet<Appointment>();
+	private Set<Appointment> appointment = new HashSet<>();
+	
+	@OneToOne(mappedBy = "patient")
+	private PatientFile patientFile;
+	
+	@OneToMany(mappedBy = "patient")
+	private Set<Prescription> prescription = new HashSet<>();
 
 	public Long getPatientId() {
 		return patientId;
@@ -127,6 +148,22 @@ public class Patients implements Serializable {
 
 	public void setAppointment(Set<Appointment> appointment) {
 		this.appointment = appointment;
+	}
+
+	public PatientFile getPatientFile() {
+		return patientFile;
+	}
+
+	public void setPatientFile(PatientFile patientFile) {
+		this.patientFile = patientFile;
+	}
+
+	public Set<Prescription> getPrescription() {
+		return prescription;
+	}
+
+	public void setPrescription(Set<Prescription> prescription) {
+		this.prescription = prescription;
 	}
 
 	

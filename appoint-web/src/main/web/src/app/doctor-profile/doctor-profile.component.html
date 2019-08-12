@@ -1,7 +1,7 @@
 <div class="flex-container">
   <div><button pButton type="button" label="Previous" (click)="getPreviousDaysAppointment()" class="ui-button-success"></button></div>
   <div>
-    <p-calendar [(ngModel)]="today" [disabledDays]="[0,6]" [readonlyInput]="true" showButtonBar="true"></p-calendar>
+    <p-calendar [(ngModel)]="today" [readonlyInput]="true" showButtonBar="true"></p-calendar>
     <button pButton type="button" label="Find" (click)="getAppointmentForTheDay()" class="ui-button-success"></button>
     
   </div>
@@ -22,10 +22,10 @@
         <ng-container *ngIf="appointments?.length != 0">
       <tr *ngFor="let appointment of appointments">
         <td>{{ appointment.time }}</td>
-        <td>{{ appointment.name }}</td>
+        <td>{{ appointment.name }}</td> 
         <td>{{ appointment.description }}</td>
         <td>
-          <button pButton type="button" icon="pi pi-search" class="ui-button-success"></button>&nbsp;
+          <button pButton type="button" icon="pi pi-folder-open" class="ui-button-success" (click)="startTreatment(appointment)" pTooltip="Start treatment"></button>&nbsp;
           <button pButton type="button" icon="pi pi-pencil" (click)="modifyAppointment(appointment.appointmentId)" class="ui-button-success" pTooltip="Modify this appointment"></button>
         </td>
       </tr>

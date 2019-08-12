@@ -3,16 +3,16 @@
  */
 package com.appoint.app.service;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,11 +21,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.appoint.app.bean.AppointmentBean;
+import com.appoint.app.bean.PatientFileBean;
+import com.appoint.app.bean.PrescriptionBean;
 import com.appoint.app.core.CommonService;
 import com.appoint.app.core.Constants;
 import com.appoint.app.message.response.ResponseMessage;
 import com.appoint.app.model.Appointment;
+import com.appoint.app.model.PatientFile;
 import com.appoint.app.model.Patients;
+import com.appoint.app.model.Prescription;
 import com.appoint.app.model.TimeOff;
 import com.appoint.app.model.User;
 import com.appoint.app.repository.AppointmentRepository;
@@ -55,7 +59,7 @@ public class AppointmentService extends CommonService {
 	@Transactional
 	public List<AppointmentBean> getAppointmentByDate(Date date){
 		List<Appointment> list = appointmentRepository.getAppointmentByDate(date);
-		List<AppointmentBean> beanList = new ArrayList<AppointmentBean>();
+		List<AppointmentBean> beanList = new ArrayList<>();
 		for(Appointment appointment:list) {
 			AppointmentBean appointmentBean = createBean(appointment);
 			beanList.add(appointmentBean);
@@ -64,9 +68,78 @@ public class AppointmentService extends CommonService {
 	}
 	
 	@Transactional
+	public void startTreatment(Long appointmentId) {
+		appointmentRepository.startTreatment(appointmentId);
+	}
+	
+	@Transactional
+	public PatientFileBean getPatientDescriptionByAppointmentId(Long appointmentId) {
+		Appointment appointment =  appointmentRepository.loadAppointment(appointmentId);
+		Patients patient = appointment.getPatients();
+		PatientFile patientFile = patient.getPatientFile();
+		PatientFileBean bean = new PatientFileBean();
+		if(patientFile != null) {
+			bean.setMarriedSince(patientFile.getMarriedSince());
+			bean.setOccupation(patientFile.getOccupation());
+			bean.setpC(patientFile.getpC());
+			bean.setFileId(patientFile.getFileId());
+			Set<PrescriptionBean> presBeanList = new HashSet<>();
+			for(Prescription prescription : patientFile.getPatient().getPrescription()) {
+				presBeanList.add(createPrescriptionBean(prescription));
+			}
+			bean.setPrescriptionList(presBeanList);
+		}else {
+			bean.setMarriedSince("");
+			bean.setOccupation("");
+			bean.setpC("");
+			bean.setFileId(0L);
+		}
+		bean.setPatientId(patient.getPatientId());
+		bean.setAge(""+patient.getAge());
+		bean.setContactDetails(patient.getAddress());
+		bean.setGender(patient.getGender());
+		bean.setName(patient.getName());
+		
+		return bean;
+	}
+	
+	@Transactional
+	public PatientFileBean savePatientRecord(PatientFileBean fileBean) {
+		Patients patient = patientRepository.loadPatient(fileBean.getPatientId());
+		if(fileBean.getFileId() == 0L) {
+			PatientFile pf = new PatientFile();
+			pf.setMarriedSince(fileBean.getMarriedSince());
+			pf.setOccupation(fileBean.getOccupation());
+			pf.setPatient(patient);
+			pf.setpC(fileBean.getpC());
+			savePrescriptionToDB(fileBean.getPrescriptionList(),patient);
+			appointmentRepository.savePatientFile(pf);
+			return fileBean;
+		}else {
+			PatientFile patientFile =  appointmentRepository.loadPatientFile(fileBean.getFileId());
+			patientFile.setMarriedSince(fileBean.getMarriedSince());
+			patientFile.setOccupation(fileBean.getOccupation());
+			patientFile.setPatient(patient);
+			patientFile.setpC(fileBean.getpC());
+			appointmentRepository.savePatientFile(patientFile);
+			savePrescriptionToDB(fileBean.getPrescriptionList(),patient);
+			PatientFileBean bean = new PatientFileBean();
+			bean.setMarriedSince(patientFile.getMarriedSince());
+			bean.setOccupation(patientFile.getOccupation());
+			bean.setPatientId(patientFile.getPatient().getPatientId());
+			bean.setpC(patientFile.getpC());
+			bean.setAge(""+patient.getAge());
+			bean.setContactDetails(patient.getAddress());
+			bean.setGender(patient.getGender());
+			bean.setName(patient.getName());
+			return bean;
+		}
+	}
+	
+	@Transactional
 	public List<AppointmentBean> getAppointmentByPhone(){
-		List<Appointment> appointmentList = new ArrayList<Appointment>();
-		List<AppointmentBean> appointmentBeanList = new ArrayList<AppointmentBean>();
+		List<Appointment> appointmentList = new ArrayList<>();
+		List<AppointmentBean> appointmentBeanList = new ArrayList<>();
 		Optional<User> optional = userRepository.findByPhone(getUsername());
 		User user = optional.get();
 		for(Patients patient : user.getPatient()) {
@@ -258,6 +331,7 @@ public class AppointmentService extends CommonService {
 		appointmentBean.setTime(getTimeInFormat(appointment.getTime()));
 		appointmentBean.setDescription(appointment.getDescription());
 		appointmentBean.setName(appointment.getPatients().getName());
+		appointmentBean.setPatientId(appointment.getPatients().getPatientId());
 		return appointmentBean;
 	}
 
@@ -270,5 +344,24 @@ public class AppointmentService extends CommonService {
 		appointment.setDescription(appointmentBean.getDescription());
 		appointment.setPatients(patientRepository.loadPatient(appointmentBean.getPatientId()));
 		return appointment;
+	}
+	
+	private PrescriptionBean createPrescriptionBean(Prescription prescription) {
+		PrescriptionBean prescriptionBean = new PrescriptionBean();
+		prescriptionBean.setPrescriptionDetails(prescription.getPrescriptionDetails());
+		prescriptionBean.setPatientId(""+prescription.getPatient().getPatientId());
+		prescriptionBean.setPatientName(prescription.getPatient().getName());
+		prescriptionBean.setPrescriptionId(prescription.getPrescriptionId());
+		prescriptionBean.setDate(new SimpleDateFormat("MMM dd, yyyy").format(prescription.getDate()));
+		return prescriptionBean;
+	}
+	
+	private void savePrescriptionToDB(Set<PrescriptionBean> prescriptionSet, Patients patient) {
+		for(PrescriptionBean presBean : prescriptionSet) {
+			if(null == presBean.getPrescriptionId() || presBean.getPrescriptionId().longValue() == -1) {
+				Prescription prescription = new Prescription(patient, new Date(), presBean.getPrescriptionDetails());
+				appointmentRepository.savePrescription(prescription);
+			}
+		}
 	}
 }

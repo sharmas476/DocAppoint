@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import { Appointment } from './../model/Appointment';
 import { AppointmentService } from './../services/appointment.service';
 import { Component, OnInit } from '@angular/core';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-profile',
@@ -12,7 +13,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DoctorProfileComponent implements OnInit {
 
-  constructor(private appointmentService:AppointmentService, private fb: FormBuilder, private messageService: MessageService) { }
+  constructor(private appointmentService:AppointmentService, 
+      private fb: FormBuilder, 
+      private messageService: MessageService,
+      private router: Router) { }
 
   today:Date;
   appointments:Appointment[];
@@ -33,16 +37,24 @@ export class DoctorProfileComponent implements OnInit {
   fetchAppointmentByDate(date:Date){
     this.appointmentService.fetchAppointmentByDate(date).subscribe(response => {
       this.appointments = response;
+      console.log(this.appointments);
     },
     error => {
       console.log(error);
     })
   }
 
+  startTreatment(appointment:Appointment){
+    this.appointmentService.startTreatment(appointment.appointmentId).subscribe(response => {
+      if(response == true){
+        this.router.navigate(['/doctorProfile/patienthistory/'+appointment.appointmentId]);
+      }
+    })
+  }
+
   getNextDaysAppointment(){
     let date = new Date();
     date.setDate(this.today.getDate() + 1);
-    // console.log(date);
     this.today = date;
     this.appointmentService.fetchAppointmentByDate(date).subscribe(response => {
       this.appointments = response;

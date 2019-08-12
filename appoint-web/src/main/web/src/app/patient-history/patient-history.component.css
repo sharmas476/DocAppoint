@@ -1,0 +1,18 @@
+:host /deep/ angular-editor#myEditor .angular-editor-button[title="Insert Image"]{
+    display: none
+    }
+:host /deep/ angular-editor#myEditor .angular-editor-button[title="Insert Video"]{
+    display: none
+    }
+:host /deep/ angular-editor#myEditor .angular-editor-button[title="HTML Code"]{
+    display: none
+    }
+:host /deep/ angular-editor#myEditor .angular-editor-button[title="Unlink"]{
+    display: none
+    }
+:host /deep/ angular-editor#myEditor .angular-editor-button[title="Insert Link"]{
+    display: none
+    }
+:host /deep/ angular-editor#myEditor .select-custom-style[title="Custom Style"]{
+    display: none
+    }

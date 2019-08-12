@@ -24,12 +24,14 @@ import com.appoint.app.message.request.LoginForm;
 import com.appoint.app.message.request.SignUpForm;
 import com.appoint.app.message.response.JwtResponse;
 import com.appoint.app.message.response.ResponseMessage;
+import com.appoint.app.model.Patients;
 import com.appoint.app.model.Role;
 import com.appoint.app.model.RoleName;
 import com.appoint.app.model.User;
 import com.appoint.app.repository.RoleRepository;
 import com.appoint.app.repository.UserRepository;
 import com.appoint.app.security.jwt.JwtProvider;
+import com.appoint.app.service.PatientService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -44,6 +46,9 @@ public class AuthRestAPIs {
 
 	@Autowired
 	RoleRepository roleRepository;
+	
+	@Autowired
+	PatientService patientService;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -110,6 +115,8 @@ public class AuthRestAPIs {
 
 		user.setRoles(roles);
 		userRepository.save(user);
+		Patients patient = new Patients(signUpRequest.getName(), signUpRequest.getAge(), signUpRequest.getGender(), signUpRequest.getEmail(), user);
+		patientService.savePatient(patient);
 
 		return new ResponseEntity<>(new ResponseMessage("User registered successfully!"), HttpStatus.OK);
 	}

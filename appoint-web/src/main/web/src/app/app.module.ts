@@ -30,6 +30,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { PmComponent } from './pm/pm.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 import { httpInterceptorProviders } from './auth/auth-interceptor';
 import { ProfileComponent } from './profile/profile.component';
@@ -37,6 +38,7 @@ import { GenderPipe } from './pipes/gender.pipe';
 import { DoctorProfileComponent } from './doctor-profile/doctor-profile.component';
 import { TimeOffComponent } from './time-off/time-off.component';
 import { PatientAppointmentComponent } from './patient-appointment/patient-appointment.component';
+import { PatientHistoryComponent } from './patient-history/patient-history.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +53,8 @@ import { PatientAppointmentComponent } from './patient-appointment/patient-appoi
     GenderPipe,
     DoctorProfileComponent,
     TimeOffComponent,
-    PatientAppointmentComponent
+    PatientAppointmentComponent,
+    PatientHistoryComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,8 @@ import { PatientAppointmentComponent } from './patient-appointment/patient-appoi
     DropdownModule,
     InputTextareaModule,
     ToastModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    AngularEditorModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { UserComponent } from './user/user.component';
 import { AdminComponent } from './admin/admin.component';
+import { PatientHistoryComponent } from './patient-history/patient-history.component';
 
 const routes: Routes = [
     {
@@ -30,6 +31,11 @@ const routes: Routes = [
     {
         path: 'appointment',
         component: PatientAppointmentComponent,
+        canActivate: [AuthGuardService]
+    },
+    {
+        path: 'doctorProfile/patienthistory/:id',
+        component: PatientHistoryComponent,
         canActivate: [AuthGuardService]
     },
     {

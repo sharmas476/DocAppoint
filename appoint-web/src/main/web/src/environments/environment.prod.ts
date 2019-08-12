@@ -1,5 +1,4 @@
 export const environment = {
   production: true,
-  url: "http://localhost:",
-  port:"8083"
+  url: "http://localhost:8080/appoint-app"
 };

@@ -12,30 +12,30 @@ export class TimeoffService {
   constructor(private http: HttpClient) { }
 
   fetchCurrentTimeOff(): Observable<TimeOff[]>{
-    return this.http.get<TimeOff[]>(environment.url+environment.port+"/api/test/getTimeoffs");
+    return this.http.get<TimeOff[]>(environment.url+"/api/test/getTimeoffs");
   }
 
   modifyTimeOff(timeOff: TimeOff): Observable<boolean>{
-    return this.http.put<boolean>(environment.url+environment.port+"/api/test/modifyTimeOffs",timeOff);
+    return this.http.put<boolean>(environment.url+"/api/test/modifyTimeOffs",timeOff);
   }
 
   getAllTimeOffs(): Observable<TimeOff[]> {
-    return this.http.get<TimeOff[]>(environment.url+environment.port+"/api/test/getAllTimeoffs");
+    return this.http.get<TimeOff[]>(environment.url+"/api/test/getAllTimeoffs");
   }
 
   createTimeOff(timeOff:TimeOff): Observable<boolean>{
-    return this.http.post<boolean>(environment.url+environment.port+"/api/test/createTimeoffs",timeOff);
+    return this.http.post<boolean>(environment.url+"/api/test/createTimeoffs",timeOff);
   }
 
   deleteTimeOff(timeOffId:string): Observable<boolean> {
-    return this.http.post<boolean>(environment.url+environment.port+"/api/test/deleteTimeoff", timeOffId);
+    return this.http.post<boolean>(environment.url+"/api/test/deleteTimeoff", timeOffId);
   }
 
   getTimeOffByMonth(month:string, year:string): Observable<TimeOff[]> {
-    return this.http.get<TimeOff[]>(environment.url+environment.port+"/api/test/getTimeoffByMonth/"+month+"/"+year);
+    return this.http.get<TimeOff[]>(environment.url+"/api/test/getTimeoffByMonth/"+month+"/"+year);
   }
 
   getFullDayTimeoff():Observable<string[]> {
-    return this.http.get<string[]>(environment.url+environment.port+"/api/test/getFullDayTimeoff");
+    return this.http.get<string[]>(environment.url+"/api/test/getFullDayTimeoff");
   }
 }
